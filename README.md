@@ -1,8 +1,10 @@
-# pubspec_to_md
+# Flutter pubspec to markdown
 
-Converrt pubspec into formatted markdown
+Convert pubspec into formatted markdown
 
 ## Getting Started
+
+To test, run `scratch.dart`
 
 This project is a starting point for a Flutter application.
 
