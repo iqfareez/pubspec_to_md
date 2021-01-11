@@ -1,11 +1,11 @@
 {
-    "name": "pubspec_to_md",
-    "short_name": "pubspec_to_md",
+    "name": "Pubspec to markdownd",
+    "short_name": "Pubspec to md",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Converrt pubspec into formatted markdown",
+    "description": "Convert pubspec into formatted markdown",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

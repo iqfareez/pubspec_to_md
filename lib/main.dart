@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pubspec_to_md/screens/main_screen.dart';
+import 'package:pubspec_to_md/screens/entry_point.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,7 +28,7 @@ class MyHome extends StatelessWidget {
       appBar: AppBar(
         title: Text('PUBSPEC to README BETA'),
       ),
-      body: MainScreen(),
+      body: EntryPoint(),
     );
   }
 }
