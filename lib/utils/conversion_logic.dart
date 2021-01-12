@@ -2,9 +2,10 @@ class Conversion {
   // readme generator
   var baseUrl = 'https://pub.dev/packages/';
 
-  void convertFormattedMd(String input) {
+  String convertFormattedMd(String input) {
     var urls = input;
     print(urls);
+    return urls;
   }
 
   // void main() {

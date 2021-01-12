@@ -28,7 +28,11 @@ class _MainScreenState extends State<MainScreen> {
                     controller: codeEditController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
+                      hintText:
+                          'example:\ncupertino_icons: ^1.0.1\nurl_launcher: ^5.7.10',
                     ),
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
                   ),
                   SizedBox(
                     height: 15,
@@ -38,9 +42,10 @@ class _MainScreenState extends State<MainScreen> {
                         'Generate md',
                         style: TextStyle(color: Colors.white),
                       ),
-                      color: Colors.blue,
+                      color: Theme.of(context).primaryColor,
                       onPressed: () {
-                        convert.convertFormattedMd(codeEditController.text);
+                        previewTextController.text =
+                            convert.convertFormattedMd(codeEditController.text);
                       })
                 ],
               ),
@@ -57,8 +62,8 @@ class _MainScreenState extends State<MainScreen> {
                     controller: previewTextController,
                     readOnly: true,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                    ),
+                        border: OutlineInputBorder(),
+                        hintText: 'Formatted will show here\n\n'),
                   )
                 ],
               ),

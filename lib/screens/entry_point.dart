@@ -7,7 +7,10 @@ class EntryPoint extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          Text('Paste your packages in your readme'),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('Paste your external dependencies code below'),
+          ),
           MainScreen(),
         ],
       ),
