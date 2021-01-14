@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pubspec_to_md/utils/conversion_logic.dart';
 
 class MainScreen extends StatefulWidget {
@@ -38,15 +40,16 @@ class _MainScreenState extends State<MainScreen> {
                     height: 15,
                   ),
                   FlatButton(
-                      child: Text(
-                        'Generate md',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      color: Theme.of(context).primaryColor,
-                      onPressed: () {
-                        previewTextController.text =
-                            convert.convertFormattedMd(codeEditController.text);
-                      })
+                    child: Text(
+                      'Generate md',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    color: Theme.of(context).primaryColor,
+                    onPressed: () {
+                      previewTextController.text =
+                          convert.convertFormattedMd(codeEditController.text);
+                    },
+                  )
                 ],
               ),
             ),
@@ -59,11 +62,28 @@ class _MainScreenState extends State<MainScreen> {
                   Text('Preview'),
                   SizedBox(height: 20),
                   TextField(
+                    maxLines: null,
                     controller: previewTextController,
                     readOnly: true,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Formatted will show here\n\n'),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  FlatButton(
+                    child: Text(
+                      'Copy',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    color: Theme.of(context).primaryColor,
+                    onPressed: () {
+                      Clipboard.setData(
+                              ClipboardData(text: previewTextController.text))
+                          .then(
+                              (value) => Fluttertoast.showToast(msg: 'Copied'));
+                    },
                   )
                 ],
               ),
