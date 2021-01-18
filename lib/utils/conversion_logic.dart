@@ -12,8 +12,6 @@ class Conversion {
     List packageVersion = [];
 
     for (var item in splittedUrl) {
-      var temp = item
-          .trim(); //remove any leading or trailing whitespaces in each element
       // https://stackoverflow.com/questions/60402195/flutter-dart-split-string-by-first-occurrence
       int idx = item.indexOf(":");
       packageName.add(item.substring(0, idx).trim());
@@ -21,10 +19,9 @@ class Conversion {
     }
     for (var item in packageName) {
       var fullUrl = baseUrl + item;
-      output = output + fullUrl;
+      output = output + fullUrl + '\n';
     }
 
-    return output;
-    //TODO: need to test
+    return output.trim(); //trim to remove eextra line
   }
 }

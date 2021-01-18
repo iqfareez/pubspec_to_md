@@ -6,7 +6,7 @@ var urls = '''
 font_awesome_flutter : 99.40.106.56 
   url_launcher : 11.33.201.185 
   cupertino_icons : 14.96.49.214 
-  auto_size_text : 253.217.163.175 
+     auto_size_text : 253.217.163.175 
   flutter_neumorphic : 115.166.247.30 
   path_provider : 147.52.231.161 
   share : 220.8.167.137 
@@ -24,8 +24,6 @@ void main() {
   List packageVersion = [];
 
   for (var item in splittedUrl) {
-    var temp = item
-        .trim(); //remove any leading or trailing whitespaces in each element
     // https://stackoverflow.com/questions/60402195/flutter-dart-split-string-by-first-occurrence
     int idx = item.indexOf(":");
     packageName.add(item.substring(0, idx).trim());
