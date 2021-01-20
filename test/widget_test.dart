@@ -15,7 +15,7 @@ void main() {
     await tester.pumpWidget(MyApp());
 
     // Verify that our counter starts at 0.
-    expect(find.text('code'), findsOneWidget);
+    expect(find.textContaining('code'), findsOneWidget);
 
     // Tap the '+' icon and trigger a frame.
     // await tester.tap(find.byIcon(Icons.add));

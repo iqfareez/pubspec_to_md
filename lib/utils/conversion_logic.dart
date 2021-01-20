@@ -22,6 +22,6 @@ class Conversion {
       output = output + fullUrl + '\n';
     }
 
-    return output.trim(); //trim to remove eextra line
+    return output.trim(); //trim to remove extra line
   }
 }
