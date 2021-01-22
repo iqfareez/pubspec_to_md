@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -28,8 +29,16 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  void dispose() {
+    codeEditController.dispose();
+    previewTextController.dispose();
+    print('DISPOSE');
+    super.dispose();
+  }
+
   Row buildWideLayout() {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           child: CodeBoxWidget(
@@ -57,7 +66,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 }
 
-class PreviewBoxWidget extends StatelessWidget {
+class PreviewBoxWidget extends StatefulWidget {
   const PreviewBoxWidget({
     Key key,
     @required this.previewTextController,
@@ -65,6 +74,13 @@ class PreviewBoxWidget extends StatelessWidget {
 
   final TextEditingController previewTextController;
 
+  @override
+  _PreviewBoxWidgetState createState() => _PreviewBoxWidgetState();
+}
+
+class _PreviewBoxWidgetState extends State<PreviewBoxWidget> {
+  int currentSegment = 0;
+  bool isFilled = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -75,7 +91,7 @@ class PreviewBoxWidget extends StatelessWidget {
           SizedBox(height: 20),
           TextField(
             maxLines: null,
-            controller: previewTextController,
+            controller: widget.previewTextController,
             readOnly: true,
             decoration: InputDecoration(
                 border: OutlineInputBorder(),
@@ -84,15 +100,38 @@ class PreviewBoxWidget extends StatelessWidget {
           SizedBox(
             height: 15,
           ),
-          FlatButton(
+          CupertinoSlidingSegmentedControl(
+              children: <int, Widget>{
+                0: Text('Raw'),
+                1: Text('Rendered'),
+              },
+              groupValue: currentSegment,
+              onValueChanged: (newValue) {
+                setState(() {
+                  currentSegment = newValue;
+                  print('newValue is $newValue');
+                });
+              }),
+          SizedBox(
+            height: 10,
+          ),
+          CupertinoButton.filled(
+            disabledColor: CupertinoColors.systemGrey3,
             child: Text(
               'Copy',
               style: TextStyle(color: Colors.white),
             ),
-            color: Theme.of(context).primaryColor,
             onPressed: () {
-              Clipboard.setData(ClipboardData(text: previewTextController.text))
-                  .then((value) => Fluttertoast.showToast(msg: 'Copied'));
+              if (widget.previewTextController.text.isNotEmpty) {
+                Clipboard.setData(
+                        ClipboardData(text: widget.previewTextController.text))
+                    .then((value) => Fluttertoast.showToast(msg: 'Copied'));
+              } else {
+                Fluttertoast.showToast(
+                    msg: 'Empty field',
+                    webBgColor: "Linear-gradient(to right, #b92b27, #1565C0)",
+                    timeInSecForIosWeb: 2);
+              }
             },
           )
         ],
@@ -101,7 +140,7 @@ class PreviewBoxWidget extends StatelessWidget {
   }
 }
 
-class CodeBoxWidget extends StatelessWidget {
+class CodeBoxWidget extends StatefulWidget {
   const CodeBoxWidget({
     Key key,
     @required this.codeEditController,
@@ -114,6 +153,18 @@ class CodeBoxWidget extends StatelessWidget {
   final Conversion convert;
 
   @override
+  _CodeBoxWidgetState createState() => _CodeBoxWidgetState();
+}
+
+class _CodeBoxWidgetState extends State<CodeBoxWidget> {
+  bool isTextEmpty;
+
+  void initState() {
+    super.initState();
+    isTextEmpty = true;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -123,7 +174,7 @@ class CodeBoxWidget extends StatelessWidget {
           SizedBox(height: 20),
           //https://www.developerlibs.com/2019/04/flutter-important-aspects-properties-textfield.html
           TextField(
-            controller: codeEditController,
+            controller: widget.codeEditController,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               hintText:
@@ -131,21 +182,42 @@ class CodeBoxWidget extends StatelessWidget {
             ),
             keyboardType: TextInputType.multiline,
             maxLines: null,
+            onChanged: (value) {
+              setState(() {
+                // value.isEmpty ? print('IS EMPTY') : print('IS NOT EMPTY');
+                isTextEmpty = value.isEmpty;
+              });
+            },
           ),
           SizedBox(
             height: 15,
           ),
-          FlatButton(
+          CupertinoButton.filled(
+            disabledColor: CupertinoColors.systemGrey3,
             child: Text(
               'Generate md',
               style: TextStyle(color: Colors.white),
             ),
-            color: Theme.of(context).primaryColor,
-            onPressed: () {
-              previewTextController.text =
-                  convert.convertFormattedMd(codeEditController.text);
-            },
+            onPressed: !isTextEmpty
+                ? () {
+                    try {
+                      widget.previewTextController.text = widget.convert
+                          .convertFormattedMd(widget.codeEditController.text);
+                    } on RangeError catch (e) {
+                      print('Error caught: $e');
+                      Fluttertoast.showToast(
+                          msg:
+                              'Please re-check your code. Make sure to put package used and its version number.',
+                          timeInSecForIosWeb: 3,
+                          webBgColor:
+                              "Linear-gradient(to right, #b92b27, #1565C0)");
+                    } catch (e) {
+                      print('Catched $e');
+                    }
+                  }
+                : null,
           )
+          //TODO: Add clear button
         ],
       ),
     );
