@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pubspec_to_md/utils/conversion_logic.dart';
+import 'package:pubspec_to_md/utils/enums.dart';
+
+var headerTextStyle = TextStyle(fontSize: 19, fontWeight: FontWeight.w800);
 
 class MainScreen extends StatefulWidget {
   @override
@@ -32,7 +35,6 @@ class _MainScreenState extends State<MainScreen> {
   void dispose() {
     codeEditController.dispose();
     previewTextController.dispose();
-    print('DISPOSE');
     super.dispose();
   }
 
@@ -87,7 +89,10 @@ class _PreviewBoxWidgetState extends State<PreviewBoxWidget> {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          Text('Preview'),
+          Text(
+            'Preview',
+            style: headerTextStyle,
+          ),
           SizedBox(height: 20),
           TextField(
             maxLines: null,
@@ -97,24 +102,20 @@ class _PreviewBoxWidgetState extends State<PreviewBoxWidget> {
                 border: OutlineInputBorder(),
                 hintText: 'Formatted will show here\n\n'),
           ),
-          SizedBox(
-            height: 15,
-          ),
-          CupertinoSlidingSegmentedControl(
-              children: <int, Widget>{
-                0: Text('Raw'),
-                1: Text('Rendered'),
-              },
-              groupValue: currentSegment,
-              onValueChanged: (newValue) {
-                setState(() {
-                  currentSegment = newValue;
-                  print('newValue is $newValue');
-                });
-              }),
-          SizedBox(
-            height: 10,
-          ),
+          SizedBox(height: 15),
+          // CupertinoSlidingSegmentedControl(
+          //     children: <int, Widget>{
+          //       0: Text('Raw'),
+          //       1: Text('Rendered'),
+          //     },
+          //     groupValue: currentSegment,
+          //     onValueChanged: (newValue) {
+          //       setState(() {
+          //         currentSegment = newValue;
+          //         print('newValue is $newValue');
+          //       });
+          //     }),
+          // SizedBox(height: 10),
           CupertinoButton.filled(
             disabledColor: CupertinoColors.systemGrey3,
             child: Text(
@@ -157,6 +158,8 @@ class CodeBoxWidget extends StatefulWidget {
 }
 
 class _CodeBoxWidgetState extends State<CodeBoxWidget> {
+  int currentFormatTypeSegment = 0;
+  int currentVersionSegment = 0;
   bool isTextEmpty;
 
   void initState() {
@@ -170,7 +173,10 @@ class _CodeBoxWidgetState extends State<CodeBoxWidget> {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          Text('Code'),
+          Text(
+            'Code',
+            style: headerTextStyle,
+          ),
           SizedBox(height: 20),
           //https://www.developerlibs.com/2019/04/flutter-important-aspects-properties-textfield.html
           TextField(
@@ -189,9 +195,35 @@ class _CodeBoxWidgetState extends State<CodeBoxWidget> {
               });
             },
           ),
-          SizedBox(
-            height: 15,
-          ),
+          SizedBox(height: 15),
+          CupertinoSlidingSegmentedControl(
+              children: <int, Widget>{
+                FormatType.url.index: Text('URL'),
+                FormatType.name.index: Text('Name hyperlink'),
+                // FormatType.simple.index: Text('Simple'),
+                // FormatType.table.index: Text('Table'),
+              },
+              groupValue: currentFormatTypeSegment,
+              onValueChanged: (newValue) {
+                setState(() {
+                  currentFormatTypeSegment = newValue;
+                  print('newValue is ${FormatType.values[newValue]}');
+                });
+              }),
+          SizedBox(height: 15),
+          CupertinoSegmentedControl(
+              children: <int, Widget>{
+                0: Text(' Without version '),
+                1: Text(' With version '),
+              },
+              groupValue: currentVersionSegment,
+              onValueChanged: (newValue) {
+                setState(() {
+                  currentVersionSegment = newValue;
+                  print('newValue is $newValue');
+                });
+              }),
+          SizedBox(height: 15),
           CupertinoButton.filled(
             disabledColor: CupertinoColors.systemGrey3,
             child: Text(
@@ -202,7 +234,10 @@ class _CodeBoxWidgetState extends State<CodeBoxWidget> {
                 ? () {
                     try {
                       widget.previewTextController.text = widget.convert
-                          .convertFormattedMd(widget.codeEditController.text);
+                          .convertFormattedMd(
+                              widget.codeEditController.text,
+                              FormatType.values[currentFormatTypeSegment],
+                              currentVersionSegment);
                     } on RangeError catch (e) {
                       print('Error caught: $e');
                       Fluttertoast.showToast(
@@ -216,8 +251,19 @@ class _CodeBoxWidgetState extends State<CodeBoxWidget> {
                     }
                   }
                 : null,
-          )
-          //TODO: Add clear button
+          ),
+          CupertinoButton(
+              child: Text('Clear all'),
+              onPressed: !isTextEmpty
+                  ? () {
+                      Fluttertoast.showToast(msg: 'Cleared');
+                      setState(() {
+                        widget.codeEditController.clear();
+                        widget.previewTextController.clear();
+                        isTextEmpty = true;
+                      });
+                    }
+                  : null),
         ],
       ),
     );

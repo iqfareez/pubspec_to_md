@@ -1,11 +1,16 @@
+import 'package:pubspec_to_md/utils/enums.dart';
+
 class Conversion {
   // readme generator
   var baseUrl = 'https://pub.dev/packages/';
 
-  String convertFormattedMd(String input) {
+  String convertFormattedMd(
+      String input, FormatType formatType, int withVersion) {
     var trimmedUrl = input.trim(); //remove any unwanted lines
     var splittedUrl = trimmedUrl.split('\n'); //transform into a list
     var output = '';
+
+    bool isWithVersion = withVersion == 0 ? false : true;
 
     //parallel array
     List packageName = [];
@@ -17,11 +22,31 @@ class Conversion {
       packageName.add(item.substring(0, idx).trim());
       packageVersion.add(item.substring(idx + 1).trim());
     }
-    for (var item in packageName) {
-      var fullUrl = baseUrl + item;
-      output = output + fullUrl + '\n';
-    }
 
-    return output.trim(); //trim to remove extra line
+    switch (formatType) {
+      case FormatType.url:
+        for (int i = 0; i < packageName.length; i++) {
+          var fullUrl = baseUrl + packageName[i];
+          output = output + fullUrl;
+          output = isWithVersion
+              ? output + ' **(' + packageVersion[i] + ')**' + '\n'
+              : output + '\n';
+        }
+        return output.trim(); //trim to remove extra line
+        break;
+      case FormatType.name:
+        for (int i = 0; i < packageName.length; i++) {
+          var fullUrl = baseUrl + packageName[i];
+
+          output = output + '[' + packageName[i] + ']' + '(' + fullUrl + ')';
+          output = isWithVersion
+              ? output + ' (' + packageVersion[i] + ')' + '\n'
+              : output + '\n';
+        }
+        return output.trim();
+        break;
+      default:
+        return 'oops';
+    }
   }
 }

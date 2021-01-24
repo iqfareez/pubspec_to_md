@@ -8,7 +8,7 @@ class EntryPoint extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(top: 16.0, left: 8.0, right: 8.0),
             child: Text('Paste your external dependencies code below'),
           ),
           MainScreen(),

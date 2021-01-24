@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Pubspec to Readme (Beta)',
+      title: 'Pubspec to Readme',
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
@@ -26,7 +26,7 @@ class MyHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('PUBSPEC to README BETA'),
+        title: Text('PUBSPEC to README'),
       ),
       body: EntryPoint(),
     );
