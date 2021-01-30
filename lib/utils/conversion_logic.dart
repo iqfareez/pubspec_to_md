@@ -29,8 +29,8 @@ class Conversion {
           var fullUrl = baseUrl + packageName[i];
           output = output + fullUrl;
           output = isWithVersion
-              ? output + ' **(' + packageVersion[i] + ')**' + '\n'
-              : output + '\n';
+              ? output + ' **(' + packageVersion[i] + ')**' + '\n\n'
+              : output + '\n\n';
         }
         return output.trim(); //trim to remove extra line
         break;
@@ -40,8 +40,8 @@ class Conversion {
 
           output = output + '[' + packageName[i] + ']' + '(' + fullUrl + ')';
           output = isWithVersion
-              ? output + ' (' + packageVersion[i] + ')' + '\n'
-              : output + '\n';
+              ? output + ' (' + packageVersion[i] + ')' + '\n\n'
+              : output + '\n\n';
         }
         return output.trim();
         break;
