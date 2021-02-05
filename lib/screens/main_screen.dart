@@ -164,11 +164,13 @@ class _CodeBoxWidgetState extends State<CodeBoxWidget> {
 
   void initState() {
     super.initState();
-    isTextEmpty = true;
+    print('Called inistate');
   }
 
   @override
   Widget build(BuildContext context) {
+    isTextEmpty = widget.codeEditController.text.isEmpty;
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
