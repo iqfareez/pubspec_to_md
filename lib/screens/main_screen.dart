@@ -240,6 +240,7 @@ class _CodeBoxWidgetState extends State<CodeBoxWidget> {
                               widget.codeEditController.text,
                               FormatType.values[currentFormatTypeSegment],
                               currentVersionSegment);
+                      FocusScope.of(context).unfocus();
                     } on RangeError catch (e) {
                       print('Error caught: $e');
                       Fluttertoast.showToast(
