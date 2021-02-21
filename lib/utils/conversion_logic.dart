@@ -45,6 +45,23 @@ class Conversion {
         }
         return output.trim();
         break;
+      case FormatType.table:
+        output = '|Name|Link|';
+        output = output +
+            (isWithVersion
+                ? 'Version|\n|----|----|-------|\n'
+                : '\n|----|----|\n');
+
+        for (int i = 0; i < packageName.length; i++) {
+          var fullUrl = baseUrl + packageName[i];
+
+          output = output + '|' + packageName[i] + '|' + fullUrl + '|';
+          output = isWithVersion
+              ? output + packageVersion[i] + '|' + '\n'
+              : output + '\n';
+        }
+        return output.trim();
+
       default:
         return 'oops';
     }

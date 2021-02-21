@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,7 +7,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pubspec_to_md/utils/conversion_logic.dart';
 import 'package:pubspec_to_md/utils/enums.dart';
 
-var headerTextStyle = TextStyle(fontSize: 19, fontWeight: FontWeight.w800);
+const headerTextStyle = TextStyle(fontSize: 19, fontWeight: FontWeight.w800);
+const codeTextStyle = TextStyle(
+  fontFamily: 'JetBrains Mono',
+);
 
 class MainScreen extends StatefulWidget {
   @override
@@ -38,7 +43,7 @@ class _MainScreenState extends State<MainScreen> {
     super.dispose();
   }
 
-  Row buildWideLayout() {
+  Widget buildWideLayout() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -55,7 +60,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Column buildMobileLayout() {
+  Widget buildMobileLayout() {
     return Column(
       children: [
         CodeBoxWidget(
@@ -97,25 +102,13 @@ class _PreviewBoxWidgetState extends State<PreviewBoxWidget> {
           TextField(
             maxLines: null,
             controller: widget.previewTextController,
+            style: codeTextStyle,
             readOnly: true,
             decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Formatted will show here\n\n'),
           ),
           SizedBox(height: 15),
-          // CupertinoSlidingSegmentedControl(
-          //     children: <int, Widget>{
-          //       0: Text('Raw'),
-          //       1: Text('Rendered'),
-          //     },
-          //     groupValue: currentSegment,
-          //     onValueChanged: (newValue) {
-          //       setState(() {
-          //         currentSegment = newValue;
-          //         print('newValue is $newValue');
-          //       });
-          //     }),
-          // SizedBox(height: 10),
           CupertinoButton.filled(
             disabledColor: CupertinoColors.systemGrey3,
             child: Text(
@@ -183,6 +176,7 @@ class _CodeBoxWidgetState extends State<CodeBoxWidget> {
           //https://www.developerlibs.com/2019/04/flutter-important-aspects-properties-textfield.html
           TextField(
             controller: widget.codeEditController,
+            style: codeTextStyle,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               hintText:
@@ -201,9 +195,8 @@ class _CodeBoxWidgetState extends State<CodeBoxWidget> {
           CupertinoSlidingSegmentedControl(
               children: <int, Widget>{
                 FormatType.url.index: Text('URL'),
-                FormatType.name.index: Text('Name hyperlink'),
-                // FormatType.simple.index: Text('Simple'),
-                // FormatType.table.index: Text('Table'),
+                FormatType.name.index: Text('Hyperlink'),
+                FormatType.table.index: Text('Table'),
               },
               groupValue: currentFormatTypeSegment,
               onValueChanged: (newValue) {
