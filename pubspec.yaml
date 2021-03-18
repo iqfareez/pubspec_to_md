@@ -12,9 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.1
-  url_launcher: ^5.7.10
-  fluttertoast: ^7.1.6
+  cupertino_icons: ^1.0.2
+  url_launcher: ^6.0.2
+  fluttertoast: ^8.0.1-nullsafety.0
 
 dev_dependencies:
   flutter_test:
