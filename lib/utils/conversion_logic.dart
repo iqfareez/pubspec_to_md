@@ -2,6 +2,7 @@ import 'package:pubspec_to_md/utils/enums.dart';
 
 class Conversion {
   // readme generator
+  // i think only me can understand this code hsshhshh
   var baseUrl = 'https://pub.dev/packages/';
 
   String convertFormattedMd(

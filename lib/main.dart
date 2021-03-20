@@ -39,9 +39,7 @@ class MyHome extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
           ),
-          SizedBox(
-            width: 20,
-          ),
+          SizedBox(width: 20),
         ],
       ),
       body: EntryPoint(),

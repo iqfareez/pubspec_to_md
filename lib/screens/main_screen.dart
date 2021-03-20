@@ -155,11 +155,6 @@ class _CodeBoxWidgetState extends State<CodeBoxWidget> {
   int currentVersionSegment = 0;
   bool isTextEmpty;
 
-  void initState() {
-    super.initState();
-    print('Called inistate');
-  }
-
   @override
   Widget build(BuildContext context) {
     isTextEmpty = widget.codeEditController.text.isEmpty;
@@ -185,10 +180,7 @@ class _CodeBoxWidgetState extends State<CodeBoxWidget> {
             keyboardType: TextInputType.multiline,
             maxLines: null,
             onChanged: (value) {
-              setState(() {
-                // value.isEmpty ? print('IS EMPTY') : print('IS NOT EMPTY');
-                isTextEmpty = value.isEmpty;
-              });
+              setState(() => isTextEmpty = value.isEmpty);
             },
           ),
           SizedBox(height: 15),
