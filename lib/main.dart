@@ -7,24 +7,27 @@ void main() => runApp(MyApp());
 //insipiration https://michaeldyrynda.github.io/readme-generator/
 
 class MyApp extends StatelessWidget {
+  final title = 'Pubspec to Markdown';
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Pubspec to Readme',
+      title: title,
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
-      home: MyHome(),
+      home: MyHome(title: title),
     );
   }
 }
 
 class MyHome extends StatelessWidget {
+  MyHome({this.title});
+  final title;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('PUBSPEC to README'),
+        title: Text(title),
         actions: [
           TextButton.icon(
             onPressed: () {
