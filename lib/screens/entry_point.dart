@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pubspec_to_md/screens/main_screen.dart';
+import 'main_screen.dart';
 
 class EntryPoint extends StatelessWidget {
   @override

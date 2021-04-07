@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pubspec_to_md/screens/entry_point.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'screens/entry_point.dart';
 
 void main() => runApp(MyApp());
 

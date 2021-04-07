@@ -1,4 +1,4 @@
-import 'package:pubspec_to_md/utils/enums.dart';
+import 'enums.dart';
 
 class Conversion {
   // readme generator

@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pubspec_to_md/utils/conversion_logic.dart';
-import 'package:pubspec_to_md/utils/enums.dart';
+import '../utils/conversion_logic.dart';
+import '../utils/enums.dart';
 
 const headerTextStyle = TextStyle(fontSize: 19, fontWeight: FontWeight.w800);
 const codeTextStyle = TextStyle(
@@ -86,8 +86,6 @@ class PreviewBoxWidget extends StatefulWidget {
 }
 
 class _PreviewBoxWidgetState extends State<PreviewBoxWidget> {
-  int currentSegment = 0;
-  bool isFilled = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -151,13 +149,13 @@ class CodeBoxWidget extends StatefulWidget {
 }
 
 class _CodeBoxWidgetState extends State<CodeBoxWidget> {
-  int currentFormatTypeSegment = 0;
-  int currentVersionSegment = 0;
-  bool isTextEmpty;
+  int _currentFormatTypeSegment = 0;
+  int _currentVersionSegment = 0;
+  bool _isTextEmpty;
 
   @override
   Widget build(BuildContext context) {
-    isTextEmpty = widget.codeEditController.text.isEmpty;
+    _isTextEmpty = widget.codeEditController.text.isEmpty;
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -180,7 +178,7 @@ class _CodeBoxWidgetState extends State<CodeBoxWidget> {
             keyboardType: TextInputType.multiline,
             maxLines: null,
             onChanged: (value) {
-              setState(() => isTextEmpty = value.isEmpty);
+              setState(() => _isTextEmpty = value.isEmpty);
             },
           ),
           SizedBox(height: 15),
@@ -190,10 +188,10 @@ class _CodeBoxWidgetState extends State<CodeBoxWidget> {
                 FormatType.name.index: Text('Hyperlink'),
                 FormatType.table.index: Text('Table'),
               },
-              groupValue: currentFormatTypeSegment,
+              groupValue: _currentFormatTypeSegment,
               onValueChanged: (newValue) {
                 setState(() {
-                  currentFormatTypeSegment = newValue;
+                  _currentFormatTypeSegment = newValue;
                   print('newValue is ${FormatType.values[newValue]}');
                 });
               }),
@@ -203,10 +201,10 @@ class _CodeBoxWidgetState extends State<CodeBoxWidget> {
                 0: Text(' Without version '),
                 1: Text(' With version '),
               },
-              groupValue: currentVersionSegment,
+              groupValue: _currentVersionSegment,
               onValueChanged: (newValue) {
                 setState(() {
-                  currentVersionSegment = newValue;
+                  _currentVersionSegment = newValue;
                   print('newValue is $newValue');
                 });
               }),
@@ -217,14 +215,14 @@ class _CodeBoxWidgetState extends State<CodeBoxWidget> {
               'Generate md',
               style: TextStyle(color: Colors.white),
             ),
-            onPressed: !isTextEmpty
+            onPressed: !_isTextEmpty
                 ? () {
                     try {
                       widget.previewTextController.text = widget.convert
                           .convertFormattedMd(
                               widget.codeEditController.text,
-                              FormatType.values[currentFormatTypeSegment],
-                              currentVersionSegment);
+                              FormatType.values[_currentFormatTypeSegment],
+                              _currentVersionSegment);
                       FocusScope.of(context).unfocus();
                     } on RangeError catch (e) {
                       print('Error caught: $e');
@@ -242,13 +240,13 @@ class _CodeBoxWidgetState extends State<CodeBoxWidget> {
           ),
           CupertinoButton(
               child: Text('Clear all'),
-              onPressed: !isTextEmpty
+              onPressed: !_isTextEmpty
                   ? () {
                       Fluttertoast.showToast(msg: 'Cleared');
                       setState(() {
                         widget.codeEditController.clear();
                         widget.previewTextController.clear();
-                        isTextEmpty = true;
+                        _isTextEmpty = true;
                       });
                     }
                   : null),
