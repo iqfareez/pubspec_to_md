@@ -12,12 +12,12 @@ const codeTextStyle = TextStyle(
   fontFamily: 'JetBrains Mono',
 );
 
-class MainScreen extends StatefulWidget {
+class InputScreen extends StatefulWidget {
   @override
-  _MainScreenState createState() => _MainScreenState();
+  _InputScreenState createState() => _InputScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _InputScreenState extends State<InputScreen> {
   TextEditingController codeEditController = TextEditingController();
   TextEditingController previewTextController = TextEditingController();
   Conversion convert = Conversion();
