@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:pubspec_to_md/utils/url_launcher.dart';
 import 'main_screen.dart';
 
 class MyHome extends StatelessWidget {
@@ -31,9 +31,8 @@ class MyHome extends StatelessWidget {
           ),
           SizedBox(width: 15),
           TextButton.icon(
-            onPressed: () {
-              launchURL('https://github.com/iqfareez/pubspec_to_md');
-            },
+            onPressed: () => LaunchUrl.launchURL(
+                'https://github.com/iqfareez/pubspec_to_md'),
             icon: Icon(
               Icons.code,
               color: Colors.white,
@@ -59,13 +58,5 @@ class MyHome extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-void launchURL(String url) async {
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
   }
 }

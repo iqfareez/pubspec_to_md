@@ -3,7 +3,7 @@
 ## https://pubspectomd.web.app/
 
 ![Maintenance](https://img.shields.io/maintenance/yes/2021?style=flat-square)
-![Status](https://img.shields.io/badge/Status-Under%20Development-blue)
+![Status](https://img.shields.io/badge/Production-blue)
 ![PWA](https://img.shields.io/badge/PWA-Ready-yellowgreen)
 
 Convert pubspec into formatted markdown

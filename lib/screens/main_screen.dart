@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pubspec_to_md/utils/url_launcher.dart';
 import '../utils/conversion_logic.dart';
 import '../utils/enums.dart';
 
@@ -67,6 +68,9 @@ class _InputScreenState extends State<InputScreen> {
             previewTextController: previewTextController,
             convert: convert),
         PreviewBoxWidget(previewTextController: previewTextController),
+        SizedBox(
+          height: 100,
+        )
       ],
     );
   }
@@ -106,24 +110,37 @@ class _PreviewBoxWidgetState extends State<PreviewBoxWidget> {
                 hintText: 'Formatted will show here\n\n'),
           ),
           SizedBox(height: 15),
-          CupertinoButton.filled(
-            disabledColor: CupertinoColors.systemGrey3,
-            child: Text(
-              'Copy',
-              style: TextStyle(color: Colors.white),
-            ),
-            onPressed: () {
-              if (widget.previewTextController.text.isNotEmpty) {
-                Clipboard.setData(
-                        ClipboardData(text: widget.previewTextController.text))
-                    .then((value) => Fluttertoast.showToast(msg: 'Copied'));
-              } else {
-                Fluttertoast.showToast(
-                    msg: 'Empty field',
-                    webBgColor: "Linear-gradient(to right, #b92b27, #1565C0)",
-                    timeInSecForIosWeb: 2);
-              }
-            },
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CupertinoButton.filled(
+                disabledColor: CupertinoColors.systemGrey3,
+                child: Text(
+                  'Copy',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  if (widget.previewTextController.text.isNotEmpty) {
+                    Clipboard.setData(ClipboardData(
+                            text: widget.previewTextController.text))
+                        .then((value) => Fluttertoast.showToast(msg: 'Copied'));
+                  } else {
+                    Fluttertoast.showToast(
+                        msg: 'Empty field',
+                        webBgColor:
+                            "Linear-gradient(to right, #b92b27, #1565C0)",
+                        timeInSecForIosWeb: 2);
+                  }
+                },
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              CupertinoButton(
+                  child: Text('Online Markdown Editor'),
+                  onPressed: () =>
+                      LaunchUrl.launchURL('https://markdownlivepreview.com/')),
+            ],
           )
         ],
       ),
@@ -172,7 +189,7 @@ class _CodeBoxWidgetState extends State<CodeBoxWidget> {
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               hintText:
-                  'example:\ncupertino_icons: ^1.0.1\nurl_launcher: ^5.7.10',
+                  'example:\ncupertino_icons: ^1.0.2\nurl_launcher: ^6.0.2',
             ),
             keyboardType: TextInputType.multiline,
             maxLines: null,
